@@ -1,0 +1,73 @@
+name: Branch Propagation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Initial_Job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Initial Step
+        run: echo "Starting the branch propagation workflow"
+
+  Propagate_Dev_Branch:
+    runs-on: ubuntu-latest
+    needs: Initial_Job
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Configure Git
+        run: |
+          git config --global user.email "nishanthkmb97@gmail.com"
+          git config --global user.name "Nishanth"
+      - name: Push changes to Dev branch
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          git checkout Dev
+          git merge main
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/Nishanth9702/SUOD2A.git Dev
+
+  Propagate_UAT_Branch:
+    runs-on: ubuntu-latest
+    needs: Propagate_Dev_Branch
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Configure Git
+        run: |
+          git config --global user.email "nishanthkmb97@gmail.com"
+          git config --global user.name "Nishanth"
+      - name: Push changes to UAT branch
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          git checkout UAT
+          git merge Dev
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/Nishanth9702/SUOD2A.git UAT
+
+  Propagate_Prod_Branch:
+    runs-on: ubuntu-latest
+    needs: Propagate_UAT_Branch
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Configure Git
+        run: |
+          git config --global user.email "nishanthkmb97@gmail.com"
+          git config --global user.name "Nishanth"
+      - name: Push changes to Prod branch
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          git checkout Prod
+          git merge UAT
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/Nishanth9702/SUOD2A.git Prod
