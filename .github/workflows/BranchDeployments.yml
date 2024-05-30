@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   Initial_Job:
     runs-on: ubuntu-latest
@@ -17,7 +20,7 @@ jobs:
     needs: Initial_Job
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - name: Configure Git
@@ -37,7 +40,7 @@ jobs:
     needs: Propagate_Dev_Branch
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - name: Configure Git
@@ -57,7 +60,7 @@ jobs:
     needs: Propagate_UAT_Branch
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - name: Configure Git
