@@ -6,7 +6,7 @@ on:
       - main
 
 permissions:
-  contents: write
+  contents: write  # Grants write permission
 
 jobs:
   Initial_Job:
@@ -20,7 +20,7 @@ jobs:
     needs: Initial_Job
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4  # Update to the latest version
         with:
           fetch-depth: 0
       - name: Configure Git
@@ -40,7 +40,7 @@ jobs:
     needs: Propagate_Dev_Branch
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4  # Update to the latest version
         with:
           fetch-depth: 0
       - name: Configure Git
@@ -60,7 +60,7 @@ jobs:
     needs: Propagate_UAT_Branch
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4  # Update to the latest version
         with:
           fetch-depth: 0
       - name: Configure Git
